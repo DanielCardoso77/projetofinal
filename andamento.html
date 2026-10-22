@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Andamento | AssisTech</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="./logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="container nav">
+
+        <a href="dashboard.html" class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </a>
+
+
+        <nav class="menu">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="chamados.html">
+                Chamados
+            </a>
+
+            <a
+                href="andamento.html"
+                class="active"
+            >
+                Andamento
+            </a>
+
+            <a href="configuracoes.html">
+                Configurações
+            </a>
+
+        </nav>
+
+
+        <button
+            class="btn-sair"
+            id="btnSair"
+        >
+            Sair
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <div class="container">
+
+
+        <section class="dashboard-welcome">
+
+            <div>
+
+                <p class="dashboard-subtitle">
+                    ACOMPANHAMENTO
+                </p>
+
+                <h1>
+                    Andamento dos chamados
+                </h1>
+
+                <p>
+                    Veja o status das suas solicitações.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-cards">
+
+            <div class="dashboard-card">
+
+                <span>
+                    Total
+                </span>
+
+                <strong id="total">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span>
+                    Abertos
+                </span>
+
+                <strong id="abertos">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span>
+                    Em andamento
+                </span>
+
+                <strong id="andamento">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-box">
+
+            <div class="box-title">
+
+                <h2>
+                    Meus chamados
+                </h2>
+
+            </div>
+
+
+            <div
+                class="lista-chamados"
+                id="lista"
+            >
+
+                <div class="sem-chamados">
+
+                    <span>
+                        📊
+                    </span>
+
+                    <h3>
+                        Nenhum chamado
+                    </h3>
+
+                    <p>
+                        Você ainda não possui chamados.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </div>
+
+        <p>
+            © 2026 AssisTech — Projeto TCC SENAI
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+const emailAtual =
+    localStorage.getItem(
+        "assistTechCurrentUser"
+    );
+
+
+if (!emailAtual) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+const usuarios =
+    JSON.parse(
+        localStorage.getItem(
+            "assistTechUsers"
+        )
+    ) || {};
+
+
+const usuario =
+    usuarios[emailAtual];
+
+
+if (!usuario) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+const chamados =
+    usuario.chamados || [];
+
+
+document.getElementById(
+    "total"
+).textContent =
+    chamados.length;
+
+
+document.getElementById(
+    "abertos"
+).textContent =
+    chamados.filter(
+        chamado =>
+            chamado.status === "Aberto"
+    ).length;
+
+
+document.getElementById(
+    "andamento"
+).textContent =
+    chamados.filter(
+        chamado =>
+            chamado.status === "Em andamento"
+    ).length;
+
+
+const lista =
+    document.getElementById("lista");
+
+
+if (chamados.length > 0) {
+
+    lista.innerHTML = "";
+
+
+    chamados
+        .slice()
+        .reverse()
+        .forEach(function(chamado) {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "chamado-item";
+
+
+            item.innerHTML = `
+
+                <div>
+
+                    <h3>
+                        ${chamado.titulo}
+                    </h3>
+
+                    <p>
+                        ${chamado.categoria}
+                    </p>
+
+                    <p>
+                        ${chamado.descricao}
+                    </p>
+
+                </div>
+
+                <span>
+                    ${chamado.status}
+                </span>
+
+            `;
+
+
+            lista.appendChild(item);
+
+        });
+
+}
+
+
+document
+    .getElementById("btnSair")
+    .addEventListener("click", function() {
+
+        localStorage.removeItem(
+            "assistTechCurrentUser"
+        );
+
+        localStorage.removeItem(
+            "assistTechCurrentName"
+        );
+
+        window.location.href =
+            "login.html";
+
+    });
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Entrar | AssisTech</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="./logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="container nav">
+
+
+        <a href="index.html" class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </a>
+
+
+        <nav class="menu">
+
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="recursos.html">
+                Recursos
+            </a>
+
+            <a href="sobre.html">
+                Sobre
+            </a>
+
+            <a href="contato.html">
+                Contato
+            </a>
+
+        </nav>
+
+
+        <a
+            href="cadastro.html"
+            class="btn-cadastro"
+        >
+            Criar conta
+        </a>
+
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="container">
+
+
+        <div class="page-title">
+
+            <h1>
+                Entrar
+            </h1>
+
+            <p>
+                Acesse sua conta do AssisTech.
+            </p>
+
+        </div>
+
+
+        <form
+            class="form-container"
+            id="loginForm"
+        >
+
+
+            <div class="form-group">
+
+                <label for="loginEmail">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Digite seu e-mail"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="loginSenha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="loginSenha"
+                    placeholder="Digite sua senha"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                Entrar
+            </button>
+
+
+            <div class="form-footer">
+
+                Ainda não possui uma conta?
+
+                <a href="cadastro.html">
+                    Criar conta
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </div>
+
+
+        <p>
+            © 2026 AssisTech — Projeto TCC SENAI
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+const loginForm =
+    document.getElementById("loginForm");
+
+
+loginForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        /* =========================
+           PEGAR DADOS
+        ========================= */
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const senha =
+            document
+                .getElementById("loginSenha")
+                .value;
+
+
+        /* =========================
+           PEGAR USUÁRIOS
+        ========================= */
+
+        const usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "assistTechUsers"
+                )
+            ) || {};
+
+
+        /* =========================
+           PROCURAR USUÁRIO
+        ========================= */
+
+        const usuario =
+            usuarios[email];
+
+
+        /* =========================
+           VERIFICAR EMAIL
+        ========================= */
+
+        if (!usuario) {
+
+            alert(
+                "E-mail não encontrado. Crie uma conta primeiro."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           VERIFICAR SENHA
+        ========================= */
+
+        if (usuario.senha !== senha) {
+
+            alert(
+                "Senha incorreta."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           DEFINIR USUÁRIO ATUAL
+        ========================= */
+
+        localStorage.setItem(
+            "assistTechCurrentUser",
+            email
+        );
+
+
+        localStorage.setItem(
+            "assistTechCurrentName",
+            usuario.nome
+        );
+
+
+        /* =========================
+           ENTRAR
+        ========================= */
+
+        alert(
+            "Login realizado com sucesso!"
+        );
+
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

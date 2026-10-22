@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chamados | AssisTech</title>
+
+    <link rel="icon" type="image/png" href="./logo.png">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="container nav">
+
+        <a href="dashboard.html" class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </a>
+
+
+        <nav class="menu">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a
+                href="chamados.html"
+                class="active"
+            >
+                Chamados
+            </a>
+
+            <a href="andamento.html">
+                Andamento
+            </a>
+
+            <a href="configuracoes.html">
+                Configurações
+            </a>
+
+        </nav>
+
+
+        <button
+            class="btn-sair"
+            id="btnSair"
+        >
+            Sair
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     CONTEÚDO
+========================= -->
+
+<main class="dashboard">
+
+    <div class="container">
+
+
+        <!-- TOPO -->
+
+        <section class="dashboard-welcome">
+
+            <div>
+
+                <p class="dashboard-subtitle">
+                    SUPORTE
+                </p>
+
+                <h1>
+                    Meus chamados
+                </h1>
+
+                <p>
+                    Gerencie suas solicitações de suporte.
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-primary"
+                id="btnNovoChamado"
+            >
+                + Novo chamado
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             FORMULÁRIO
+        ========================= -->
+
+        <section
+            class="dashboard-box"
+            id="formContainer"
+            style="display: none;"
+        >
+
+            <div class="box-title">
+
+                <h2 id="tituloFormulario">
+                    Novo chamado
+                </h2>
+
+                <button
+                    class="btn-sair"
+                    id="btnCancelar"
+                >
+                    Cancelar
+                </button>
+
+            </div>
+
+
+            <form id="chamadoForm">
+
+
+                <div class="form-group">
+
+                    <label for="titulo">
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="titulo"
+                        placeholder="Ex: Computador não liga"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="categoria">
+                        Categoria
+                    </label>
+
+                    <select
+                        id="categoria"
+                        required
+                    >
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="Hardware">
+                            Hardware
+                        </option>
+
+                        <option value="Software">
+                            Software
+                        </option>
+
+                        <option value="Rede">
+                            Rede
+                        </option>
+
+                        <option value="Acesso">
+                            Acesso
+                        </option>
+
+                        <option value="Outro">
+                            Outro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="descricao">
+                        Descrição
+                    </label>
+
+                    <textarea
+                        id="descricao"
+                        rows="5"
+                        placeholder="Descreva o problema..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option value="Aberto">
+                            Aberto
+                        </option>
+
+                        <option value="Em andamento">
+                            Em andamento
+                        </option>
+
+                        <option value="Resolvido">
+                            Resolvido
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                    id="btnSalvar"
+                >
+                    Criar chamado
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             LISTA
+        ========================= -->
+
+        <section class="dashboard-box">
+
+            <div class="box-title">
+
+                <h2>
+                    Chamados cadastrados
+                </h2>
+
+                <span id="contador">
+                    0 chamados
+                </span>
+
+            </div>
+
+
+            <div
+                id="listaChamados"
+                class="lista-chamados"
+            >
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </div>
+
+
+        <p>
+            © 2026 AssisTech — Projeto TCC SENAI
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+
+/* =========================
+   USUÁRIO LOGADO
+========================= */
+
+const emailAtual =
+    localStorage.getItem(
+        "assistTechCurrentUser"
+    );
+
+
+if (!emailAtual) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   PEGAR USUÁRIOS
+========================= */
+
+let usuarios =
+    JSON.parse(
+        localStorage.getItem(
+            "assistTechUsers"
+        )
+    ) || {};
+
+
+const usuario =
+    usuarios[emailAtual];
+
+
+if (!usuario) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   GARANTIR CHAMADOS
+========================= */
+
+if (!usuario.chamados) {
+
+    usuario.chamados = [];
+
+}
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const lista =
+    document.getElementById(
+        "listaChamados"
+    );
+
+const contador =
+    document.getElementById(
+        "contador"
+    );
+
+const formContainer =
+    document.getElementById(
+        "formContainer"
+    );
+
+const form =
+    document.getElementById(
+        "chamadoForm"
+    );
+
+const tituloFormulario =
+    document.getElementById(
+        "tituloFormulario"
+    );
+
+const btnSalvar =
+    document.getElementById(
+        "btnSalvar"
+    );
+
+
+/* =========================
+   ID EM EDIÇÃO
+========================= */
+
+let chamadoEditando = null;
+
+
+/* =========================
+   SALVAR USUÁRIO
+========================= */
+
+function salvarUsuarios() {
+
+    usuarios[emailAtual] =
+        usuario;
+
+
+    localStorage.setItem(
+        "assistTechUsers",
+        JSON.stringify(usuarios)
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR CHAMADOS
+========================= */
+
+function mostrarChamados() {
+
+
+    const chamados =
+        usuario.chamados;
+
+
+    contador.textContent =
+        chamados.length +
+        (
+            chamados.length === 1
+                ? " chamado"
+                : " chamados"
+        );
+
+
+    /* SEM CHAMADOS */
+
+    if (chamados.length === 0) {
+
+        lista.innerHTML = `
+
+            <div class="sem-chamados">
+
+                <span>
+                    📋
+                </span>
+
+                <h3>
+                    Nenhum chamado
+                </h3>
+
+                <p>
+                    Você ainda não possui chamados.
+                </p>
+
+                <button
+                    class="btn-primary"
+                    onclick="abrirNovoChamado()"
+                >
+                    Criar chamado
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    lista.innerHTML = "";
+
+
+    /* MOSTRAR CHAMADOS */
+
+    chamados
+        .slice()
+        .reverse()
+        .forEach(function(chamado) {
+
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "chamado-item completo";
+
+
+            let classeStatus =
+                "status-aberto";
+
+
+            if (
+                chamado.status ===
+                "Em andamento"
+            ) {
+
+                classeStatus =
+                    "status-andamento";
+
+            }
+
+
+            if (
+                chamado.status ===
+                "Resolvido"
+            ) {
+
+                classeStatus =
+                    "status-resolvido";
+
+            }
+
+
+            item.innerHTML = `
+
+                <div class="chamado-info">
+
+                    <h3>
+                        ${chamado.titulo}
+                    </h3>
+
+                    <p>
+                        <strong>
+                            Categoria:
+                        </strong>
+                        ${chamado.categoria}
+                    </p>
+
+                    <p>
+                        ${chamado.descricao}
+                    </p>
+
+                    <small>
+                        Criado em:
+                        ${chamado.data}
+                    </small>
+
+                </div>
+
+
+                <div class="chamado-acoes">
+
+                    <span class="status-badge ${classeStatus}">
+                        ${chamado.status}
+                    </span>
+
+
+                    <button
+                        class="btn-editar"
+                        onclick="editarChamado(${chamado.id})"
+                    >
+                        Editar
+                    </button>
+
+
+                    <button
+                        class="btn-excluir"
+                        onclick="excluirChamado(${chamado.id})"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            `;
+
+
+            lista.appendChild(item);
+
+        });
+
+}
+
+
+/* =========================
+   ABRIR NOVO
+========================= */
+
+function abrirNovoChamado() {
+
+    chamadoEditando = null;
+
+
+    tituloFormulario.textContent =
+        "Novo chamado";
+
+
+    btnSalvar.textContent =
+        "Criar chamado";
+
+
+    form.reset();
+
+
+    document.getElementById(
+        "status"
+    ).value =
+        "Aberto";
+
+
+    formContainer.style.display =
+        "block";
+
+
+    window.scrollTo({
+
+        top:
+            formContainer.offsetTop - 100,
+
+        behavior:
+            "smooth"
+
+    });
+
+}
+
+
+/* =========================
+   BOTÃO NOVO
+========================= */
+
+document
+    .getElementById(
+        "btnNovoChamado"
+    )
+    .addEventListener(
+        "click",
+        abrirNovoChamado
+    );
+
+
+/* =========================
+   CANCELAR
+========================= */
+
+document
+    .getElementById(
+        "btnCancelar"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            form.reset();
+
+            chamadoEditando = null;
+
+            formContainer.style.display =
+                "none";
+
+        }
+    );
+
+
+/* =========================
+   EDITAR
+========================= */
+
+function editarChamado(id) {
+
+
+    const chamado =
+        usuario.chamados.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!chamado) {
+        return;
+    }
+
+
+    chamadoEditando =
+        id;
+
+
+    document.getElementById(
+        "titulo"
+    ).value =
+        chamado.titulo;
+
+
+    document.getElementById(
+        "categoria"
+    ).value =
+        chamado.categoria;
+
+
+    document.getElementById(
+        "descricao"
+    ).value =
+        chamado.descricao;
+
+
+    document.getElementById(
+        "status"
+    ).value =
+        chamado.status;
+
+
+    tituloFormulario.textContent =
+        "Editar chamado";
+
+
+    btnSalvar.textContent =
+        "Salvar alterações";
+
+
+    formContainer.style.display =
+        "block";
+
+
+    window.scrollTo({
+
+        top:
+            formContainer.offsetTop - 100,
+
+        behavior:
+            "smooth"
+
+    });
+
+}
+
+
+/* =========================
+   SALVAR FORMULÁRIO
+========================= */
+
+form.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const titulo =
+            document
+                .getElementById("titulo")
+                .value
+                .trim();
+
+
+        const categoria =
+            document
+                .getElementById("categoria")
+                .value;
+
+
+        const descricao =
+            document
+                .getElementById("descricao")
+                .value
+                .trim();
+
+
+        const status =
+            document
+                .getElementById("status")
+                .value;
+
+
+        /* EDITANDO */
+
+        if (chamadoEditando !== null) {
+
+
+            const chamado =
+                usuario.chamados.find(
+                    item =>
+                        item.id ===
+                        chamadoEditando
+                );
+
+
+            if (chamado) {
+
+                chamado.titulo =
+                    titulo;
+
+                chamado.categoria =
+                    categoria;
+
+                chamado.descricao =
+                    descricao;
+
+                chamado.status =
+                    status;
+
+            }
+
+
+            alert(
+                "Chamado atualizado com sucesso!"
+            );
+
+
+        }
+
+
+        /* NOVO */
+
+        else {
+
+
+            const novoChamado = {
+
+                id: Date.now(),
+
+                titulo:
+                    titulo,
+
+                categoria:
+                    categoria,
+
+                descricao:
+                    descricao,
+
+                status:
+                    status,
+
+                data:
+                    new Date()
+                        .toLocaleDateString(
+                            "pt-BR"
+                        )
+
+            };
+
+
+            usuario.chamados.push(
+                novoChamado
+            );
+
+
+            alert(
+                "Chamado criado com sucesso!"
+            );
+
+        }
+
+
+        salvarUsuarios();
+
+
+        form.reset();
+
+
+        chamadoEditando =
+            null;
+
+
+        formContainer.style.display =
+            "none";
+
+
+        mostrarChamados();
+
+    }
+);
+
+
+/* =========================
+   EXCLUIR
+========================= */
+
+function excluirChamado(id) {
+
+
+    const confirmar =
+        confirm(
+            "Tem certeza que deseja excluir este chamado?"
+        );
+
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    usuario.chamados =
+        usuario.chamados.filter(
+            chamado =>
+                chamado.id !== id
+        );
+
+
+    salvarUsuarios();
+
+
+    mostrarChamados();
+
+
+    alert(
+        "Chamado excluído com sucesso!"
+    );
+
+}
+
+
+/* =========================
+   SAIR
+========================= */
+
+document
+    .getElementById(
+        "btnSair"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.removeItem(
+                "assistTechCurrentUser"
+            );
+
+
+            localStorage.removeItem(
+                "assistTechCurrentName"
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+
+/* =========================
+   INICIAR
+========================= */
+
+mostrarChamados();
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | AssisTech</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="./logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="container nav">
+
+        <a href="dashboard.html" class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </a>
+
+
+        <nav class="menu">
+
+            <a
+                href="dashboard.html"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+            <a href="chamados.html">
+                Chamados
+            </a>
+
+            <a href="andamento.html">
+                Andamento
+            </a>
+
+            <a href="configuracoes.html">
+                Configurações
+            </a>
+
+        </nav>
+
+
+        <button
+            class="btn-sair"
+            id="btnSair"
+        >
+            Sair
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- DASHBOARD -->
+
+<main class="dashboard">
+
+    <div class="container">
+
+
+        <!-- BOAS-VINDAS -->
+
+        <section class="dashboard-welcome">
+
+            <div>
+
+                <p class="dashboard-subtitle">
+                    PAINEL DE CONTROLE
+                </p>
+
+                <h1>
+                    Olá,
+                    <span id="nomeUsuario">
+                        Usuário
+                    </span>!
+                </h1>
+
+                <p>
+                    Acompanhe seus chamados pelo AssisTech.
+                </p>
+
+            </div>
+
+
+            <a
+                href="chamados.html"
+                class="btn-primary"
+            >
+                + Novo chamado
+            </a>
+
+        </section>
+
+
+
+        <!-- CARDS -->
+
+        <section class="dashboard-cards">
+
+
+            <div class="dashboard-card">
+
+                <span>
+                    Total de chamados
+                </span>
+
+                <strong id="totalChamados">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span>
+                    Em andamento
+                </span>
+
+                <strong id="chamadosAndamento">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="dashboard-card">
+
+                <span>
+                    Resolvidos
+                </span>
+
+                <strong id="chamadosResolvidos">
+                    0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ÁREA PRINCIPAL -->
+
+        <section class="dashboard-area">
+
+
+            <!-- CHAMADOS -->
+
+            <div class="dashboard-box">
+
+                <div class="box-title">
+
+                    <h2>
+                        Meus chamados
+                    </h2>
+
+                    <a href="chamados.html">
+                        Ver todos
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="listaChamados"
+                    class="lista-chamados"
+                >
+
+                    <div class="sem-chamados">
+
+                        <span>
+                            📋
+                        </span>
+
+                        <h3>
+                            Nenhum chamado
+                        </h3>
+
+                        <p>
+                            Você ainda não possui chamados.
+                        </p>
+
+                        <a
+                            href="chamados.html"
+                            class="btn-primary"
+                        >
+                            Criar chamado
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PERFIL -->
+
+            <div class="dashboard-box">
+
+                <div class="box-title">
+
+                    <h2>
+                        Minha conta
+                    </h2>
+
+                </div>
+
+
+                <div class="usuario">
+
+                    <div
+                        class="usuario-avatar"
+                        id="avatarUsuario"
+                    >
+                        U
+                    </div>
+
+
+                    <div>
+
+                        <h3 id="nomeCompleto">
+                            Usuário
+                        </h3>
+
+                        <p id="emailUsuario">
+                            -
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="usuario-status">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        ● Ativo
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="configuracoes.html"
+                    class="btn-conta"
+                >
+                    Configurações
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ACESSO RÁPIDO -->
+
+        <section class="acesso">
+
+            <h2>
+                Acesso rápido
+            </h2>
+
+
+            <div class="acesso-grid">
+
+
+                <a
+                    href="chamados.html"
+                    class="acesso-card"
+                >
+
+                    <strong>
+                        +
+                    </strong>
+
+                    <div>
+
+                        <h3>
+                            Novo chamado
+                        </h3>
+
+                        <p>
+                            Criar uma solicitação
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="chamados.html"
+                    class="acesso-card"
+                >
+
+                    <strong>
+                        📋
+                    </strong>
+
+                    <div>
+
+                        <h3>
+                            Meus chamados
+                        </h3>
+
+                        <p>
+                            Ver minhas solicitações
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="andamento.html"
+                    class="acesso-card"
+                >
+
+                    <strong>
+                        📊
+                    </strong>
+
+                    <div>
+
+                        <h3>
+                            Acompanhar
+                        </h3>
+
+                        <p>
+                            Ver andamento
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </div>
+
+
+        <p>
+            © 2026 AssisTech — Projeto TCC SENAI
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+
+/* =========================
+   USUÁRIO LOGADO
+========================= */
+
+const emailAtual =
+    localStorage.getItem(
+        "assistTechCurrentUser"
+    );
+
+
+if (!emailAtual) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   USUÁRIOS
+========================= */
+
+const usuarios =
+    JSON.parse(
+        localStorage.getItem(
+            "assistTechUsers"
+        )
+    ) || {};
+
+
+const usuario =
+    usuarios[emailAtual];
+
+
+if (!usuario) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   DADOS
+========================= */
+
+const nome =
+    usuario.nome;
+
+const email =
+    usuario.email;
+
+const chamados =
+    usuario.chamados || [];
+
+
+/* =========================
+   NOME
+========================= */
+
+document.getElementById(
+    "nomeUsuario"
+).textContent = nome;
+
+
+document.getElementById(
+    "nomeCompleto"
+).textContent = nome;
+
+
+document.getElementById(
+    "emailUsuario"
+).textContent = email;
+
+
+/* =========================
+   AVATAR
+========================= */
+
+document.getElementById(
+    "avatarUsuario"
+).textContent =
+    nome.charAt(0).toUpperCase();
+
+
+/* =========================
+   TOTAL
+========================= */
+
+document.getElementById(
+    "totalChamados"
+).textContent =
+    chamados.length;
+
+
+/* =========================
+   ANDAMENTO
+========================= */
+
+document.getElementById(
+    "chamadosAndamento"
+).textContent =
+    chamados.filter(
+        chamado =>
+            chamado.status === "Em andamento"
+    ).length;
+
+
+/* =========================
+   RESOLVIDOS
+========================= */
+
+document.getElementById(
+    "chamadosResolvidos"
+).textContent =
+    chamados.filter(
+        chamado =>
+            chamado.status === "Resolvido"
+    ).length;
+
+
+/* =========================
+   CHAMADOS
+========================= */
+
+const lista =
+    document.getElementById(
+        "listaChamados"
+    );
+
+
+if (chamados.length > 0) {
+
+    lista.innerHTML = "";
+
+
+    chamados
+        .slice(-5)
+        .reverse()
+        .forEach(
+            chamado => {
+
+                const item =
+                    document.createElement("div");
+
+
+                item.className =
+                    "chamado-item";
+
+
+                item.innerHTML = `
+
+                    <div>
+
+                        <h3>
+                            ${chamado.titulo || "Chamado"}
+                        </h3>
+
+                        <p>
+                            ${chamado.descricao || ""}
+                        </p>
+
+                    </div>
+
+                    <span>
+                        ${chamado.status || "Aberto"}
+                    </span>
+
+                `;
+
+
+                lista.appendChild(item);
+
+            }
+        );
+
+}
+
+
+/* =========================
+   SAIR
+========================= */
+
+document
+    .getElementById("btnSair")
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.removeItem(
+                "assistTechCurrentUser"
+            );
+
+            localStorage.removeItem(
+                "assistTechCurrentName"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

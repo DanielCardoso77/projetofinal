@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Criar conta | AssisTech</title>
+
+    <link rel="icon" type="image/png" href="./logo.png">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="container nav">
+
+        <a href="index.html" class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </a>
+
+
+        <nav class="menu">
+
+            <a href="index.html">
+                Início
+            </a>
+
+            <a href="recursos.html">
+                Recursos
+            </a>
+
+            <a href="sobre.html">
+                Sobre
+            </a>
+
+            <a href="contato.html">
+                Contato
+            </a>
+
+        </nav>
+
+
+        <a href="login.html" class="btn-cadastro">
+            Entrar
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Criar conta
+            </h1>
+
+            <p>
+                Cadastre-se para começar a utilizar o AssisTech.
+            </p>
+
+        </div>
+
+
+        <form
+            class="form-container"
+            id="cadastroForm"
+        >
+
+            <div class="form-group">
+
+                <label for="cadNome">
+                    Nome completo
+                </label>
+
+                <input
+                    type="text"
+                    id="cadNome"
+                    placeholder="Digite seu nome completo"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="cadEmail">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="cadEmail"
+                    placeholder="Digite seu e-mail"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="cadSenha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="cadSenha"
+                    placeholder="Digite sua senha"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="cadConfirmar">
+                    Confirmar senha
+                </label>
+
+                <input
+                    type="password"
+                    id="cadConfirmar"
+                    placeholder="Digite sua senha novamente"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                Criar minha conta
+            </button>
+
+
+            <div class="form-footer">
+
+                Já possui uma conta?
+
+                <a href="login.html">
+                    Entrar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-content">
+
+        <div class="logo">
+
+            <img
+                src="./logo.png"
+                alt="Logo AssisTech"
+            >
+
+            <span>
+                Assis<span>Tech</span>
+            </span>
+
+        </div>
+
+
+        <p>
+            © 2026 AssisTech — Projeto TCC SENAI
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+const cadastroForm =
+    document.getElementById("cadastroForm");
+
+
+cadastroForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        /* =========================
+           PEGAR DADOS
+        ========================= */
+
+        const nome =
+            document
+                .getElementById("cadNome")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("cadEmail")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const senha =
+            document
+                .getElementById("cadSenha")
+                .value;
+
+
+        const confirmar =
+            document
+                .getElementById("cadConfirmar")
+                .value;
+
+
+        /* =========================
+           VALIDAR NOME
+        ========================= */
+
+        if (nome.length < 3) {
+
+            alert(
+                "Digite um nome válido."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           VALIDAR SENHA
+        ========================= */
+
+        if (senha.length < 6) {
+
+            alert(
+                "A senha precisa ter pelo menos 6 caracteres."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           CONFIRMAR SENHA
+        ========================= */
+
+        if (senha !== confirmar) {
+
+            alert(
+                "As senhas não coincidem."
+            );
+
+            return;
+
+        }
+
+
+        /* =========================
+           PEGAR USUÁRIOS
+        ========================= */
+
+        let usuarios =
+            JSON.parse(
+                localStorage.getItem(
+                    "assistTechUsers"
+                )
+            ) || {};
+
+
+        /* =========================
+           VERIFICAR EMAIL
+        ========================= */
+
+        if (usuarios[email]) {
+
+            alert(
+                "Este e-mail já possui uma conta. Faça login."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        /* =========================
+           CRIAR USUÁRIO
+        ========================= */
+
+        usuarios[email] = {
+
+            nome: nome,
+
+            email: email,
+
+            senha: senha,
+
+            chamados: []
+
+        };
+
+
+        /* =========================
+           SALVAR USUÁRIOS
+        ========================= */
+
+        localStorage.setItem(
+            "assistTechUsers",
+            JSON.stringify(usuarios)
+        );
+
+
+        /* =========================
+           DEFINIR USUÁRIO ATUAL
+        ========================= */
+
+        localStorage.setItem(
+            "assistTechCurrentUser",
+            email
+        );
+
+
+        /* =========================
+           SALVAR NOME ATUAL
+        ========================= */
+
+        localStorage.setItem(
+            "assistTechCurrentName",
+            nome
+        );
+
+
+        /* =========================
+           MENSAGEM
+        ========================= */
+
+        alert(
+            "Conta criada com sucesso!"
+        );
+
+
+        /* =========================
+           IR PARA DASHBOARD
+        ========================= */
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
